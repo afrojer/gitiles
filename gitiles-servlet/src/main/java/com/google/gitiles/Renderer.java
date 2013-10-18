@@ -85,6 +85,13 @@ public abstract class Renderer {
     }
     allGlobals.put("gitiles.SITE_TITLE", siteTitle);
     allGlobals.putAll(globals);
+    if (!allGlobals.containsKey("gitiles.SHOW_ARCHIVE_LINK")) {
+        allGlobals.put("gitiles.PRINT_ARCHIVE_LINK", "1");
+    } else if (allGlobals.get("gitiles.SHOW_ARCHIVE_LINK").equals("0")) {
+        allGlobals.put("gitiles.PRINT_ARCHIVE_LINK", "");
+    } else {
+        allGlobals.put("gitiles.PRINT_ARCHIVE_LINK", "1");
+    }
     this.globals = ImmutableMap.copyOf(allGlobals);
   }
 

@@ -306,6 +306,8 @@ class GitilesFilter extends MetaFilter {
 
     if (renderer == null) {
       renderer = new DefaultRenderer(
+          ImmutableMap.of(
+              "gitiles.SHOW_ARCHIVE_LINK", Objects.firstNonNull(config.getString("gitiles", null, "showArchiveLink"), "1")),
           filterConfig.getServletContext().getContextPath() + STATIC_PREFIX,
           Renderer.toFileURL(config.getString("gitiles", null, "customTemplates")),
           Objects.firstNonNull(config.getString("gitiles", null, "siteTitle"), "Gitiles"));

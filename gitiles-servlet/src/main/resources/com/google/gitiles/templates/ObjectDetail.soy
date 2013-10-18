@@ -49,7 +49,9 @@
         <span class="log-link">
           [<a href="{$logUrl}">{msg desc="text for the log link"}log{/msg}</a>]
         </span>
+        {if gitiles.PRINT_ARCHIVE_LINK}
         <span class="download-link">[<a href="{$archiveUrl}">{$archiveType}</a>]</span>
+        {/if}
       </td>
       <td>{sp}</td>
     </tr>
