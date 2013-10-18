@@ -22,6 +22,7 @@ import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
+import com.google.common.io.Files;
 import com.google.template.soy.tofu.SoyTofu;
 
 import java.io.File;
@@ -62,6 +63,18 @@ public abstract class Renderer {
     }
   }
 
+  protected static final String readFile(String filename) {
+      if (filename == null) {
+          return "";
+      }
+      try {
+          File f = new File(filename);
+          return f.exists() ? Files.toString(f, Charsets.UTF_8) : "";
+      } catch (IOException e) {
+          return "";
+      }
+  }
+
   protected ImmutableList<URL> templates;
   protected ImmutableMap<String, String> globals;
 
@@ -85,6 +98,14 @@ public abstract class Renderer {
     }
     allGlobals.put("gitiles.SITE_TITLE", siteTitle);
     allGlobals.putAll(globals);
+    if (!allGlobals.containsKey("gitiles.SITE_HEADER")) {
+        allGlobals.put("gitiles.SITE_HEADER", "");
+    }
+    allGlobals.put("gitiles.SITE_HEADER", readFile(allGlobals.get("gitiles.SITE_HEADER")));
+    if (!allGlobals.containsKey("gitiles.SITE_FOOTER")) {
+        allGlobals.put("gitiles.SITE_FOOTER", "");
+    }
+    allGlobals.put("gitiles.SITE_FOOTER", readFile(allGlobals.get("gitiles.SITE_FOOTER")));
     if (!allGlobals.containsKey("gitiles.SHOW_ARCHIVE_LINK")) {
         allGlobals.put("gitiles.PRINT_ARCHIVE_LINK", "1");
     } else if (allGlobals.get("gitiles.SHOW_ARCHIVE_LINK").equals("0")) {

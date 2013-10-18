@@ -17,5 +17,9 @@
  * Default custom header implementation for Gitiles.
  */
 {template .customHeader}
+{if gitiles.SITE_HEADER}
+{gitiles.SITE_HEADER|noAutoescape}
+{else}
 <h1>{msg desc="short name of the application"}{gitiles.SITE_TITLE}{/msg}</h1>
+{/if}
 {/template}
